@@ -76,6 +76,38 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    #Move the snake
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+            snake_dx = -1 * SNAKE_SIZE
+            snake_dy = 0
+        if event.key == pygame.K_RIGHT:
+            snake_dx = SNAKE_SIZE
+            snake_dy = 0
+        if event.key == pygame.K_UP:
+            snake_dx = 0
+            snake_dy = -1 * SNAKE_SIZE
+        if event.key == pygame.K_DOWN:
+            snake_dx = 0
+            snake_dy = SNAKE_SIZE
+
+    #Update the x, y position of the snakes head and make a new coordinate
+    head_x += snake_dx
+    head_y += snake_dy
+    head_coord = (head_x, head_y, SNAKE_SIZE, SNAKE_SIZE)
+    
+    #Check for Collisions
+    if head_rect.colliderect(apple_rect):
+        score += 1
+        pick_up_sound.play()
+        
+        apple_x = random.randint(0, WINDOW_WIDTH - SNAKE_SIZE)
+        apple_y = random.randint(0, WINDOW_HEIGHT - SNAKE_SIZE)
+        apple_coord = (apple_x, apple_y, SNAKE_SIZE, SNAKE_SIZE)
+
+    #Update HUD
+    score_text =font.render(f"Score: {score}", True, GREEN, DARKRED)
+
 
     #Fill surface
     display_surface.fill(WHITE)
@@ -85,12 +117,12 @@ while running:
     display_surface.blit(score_text, score_rect)
 
     #Display Assets
-    pygame.draw.rect(display_surface, GREEN, head_coord)
-    pygame.draw.rect(display_surface, RED, apple_coord)
+    head_rect = pygame.draw.rect(display_surface, GREEN, head_coord)
+    apple_rect = pygame.draw.rect(display_surface, RED, apple_coord)
 
     #Update display and tick clock
     pygame.display.update()
     clock.tick(FPS)
 
 #End Game
-pygame.quit()
+# pygame.quit()
