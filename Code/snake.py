@@ -104,7 +104,7 @@ while running:
     head_coord = (head_x, head_y, SNAKE_SIZE, SNAKE_SIZE)
     
     #Check for game over
-    if head_rect.left < 0 or head_rect.right > WINDOW_WIDTH or head_rect.top < 0 or head_rect.bottom > WINDOW_HEIGHT or head_coord in body_coords:
+    if head_rect.right <= 0 or head_rect.left >= WINDOW_WIDTH or head_rect.bottom <= 0 or head_rect.top >= WINDOW_HEIGHT or head_coord in body_coords:
         display_surface.blit(gameover_text, gameover_rect)
         display_surface.blit(continue_text, continue_rect)
         pygame.display.update()
